@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A4E5DF732D129FC2004AF944 /* VertexShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = A4E5DF722D129FC2004AF944 /* VertexShader.metal */; };
+		A4E5DF752D129FF1004AF944 /* FragmentShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = A4E5DF742D129FF1004AF944 /* FragmentShader.metal */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		A4E5DF662D125F57004AF944 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		A4E5DF682D125F57004AF944 /* SimpleTriangle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleTriangle; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4E5DF722D129FC2004AF944 /* VertexShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VertexShader.metal; sourceTree = "<group>"; };
+		A4E5DF742D129FF1004AF944 /* FragmentShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = FragmentShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +51,8 @@
 		A4E5DF5F2D125F57004AF944 = {
 			isa = PBXGroup;
 			children = (
+				A4E5DF722D129FC2004AF944 /* VertexShader.metal */,
+				A4E5DF742D129FF1004AF944 /* FragmentShader.metal */,
 				A4E5DF6A2D125F57004AF944 /* SimpleTriangle */,
 				A4E5DF692D125F57004AF944 /* Products */,
 			);
@@ -121,6 +130,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4E5DF732D129FC2004AF944 /* VertexShader.metal in Sources */,
+				A4E5DF752D129FF1004AF944 /* FragmentShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
