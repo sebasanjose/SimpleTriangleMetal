@@ -61,9 +61,9 @@ let pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineDesc
 // Create vertex data (position and color for each vertex).
 let vertexData: [Float] = [
     // Position         // Color (RGBA)
-    0.0,  1.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0, // Top vertex
-   -1.0, -1.0, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0, // Bottom-left vertex
-    1.0, -1.0, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0  // Bottom-right vertex
+    0.0,  0.5, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0, // Top vertex
+   -0.5, -0.5, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0, // Bottom-left vertex
+    0.5, -0.5, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0  // Bottom-right vertex
 ]
 let vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexData.count * MemoryLayout<Float>.size, options: [])
 
