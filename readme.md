@@ -1,4 +1,4 @@
-# Day 4 - Coordinate Spaces and Transforms
+# Coordinate Spaces and Transforms
 
 ## Overview
 
