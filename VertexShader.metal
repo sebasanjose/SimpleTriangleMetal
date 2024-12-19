@@ -20,9 +20,13 @@ struct VertexOut {
     float4 color;                    // Color to pass to the fragment shader.
 };
 
-vertex VertexOut vertex_main(Vertex in [[stage_in]]) {
+struct Uniforms {
+    float4x4 modelViewProjectionMatrix;
+};
+
+vertex VertexOut vertex_main(Vertex in [[stage_in]], constant Uniforms& uniforms [[buffer(1)]]) {
     VertexOut out;
-    out.position = in.position; // Pass position to the clip space.
+    out.position = uniforms.modelViewProjectionMatrix * in.position;
     out.color = in.color;       // Pass color to the fragment shader.
     return out;
 }

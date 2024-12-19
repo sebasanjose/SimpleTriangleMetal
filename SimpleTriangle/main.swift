@@ -11,6 +11,23 @@ import MetalKit
 let device = MTLCreateSystemDefaultDevice()!
 let commandQueue = device.makeCommandQueue()!
 
+func orthographicMatrix(left: Float, right: Float, bottom: Float, top: Float) -> matrix_float4x4 {
+    let rl = 1.0 / (right - left)
+    let tb = 1.0 / (top - bottom)
+
+    return matrix_float4x4(columns: (
+        SIMD4<Float>( 2.0 * rl,         0.0, 0.0, 0.0),
+        SIMD4<Float>(       0.0,  2.0 * tb, 0.0, 0.0),
+        SIMD4<Float>(       0.0,       0.0, 1.0, 0.0),
+        SIMD4<Float>(-(right + left) * rl, -(top + bottom) * tb, 0.0, 1.0)
+    ))
+}
+
+var orthoMatrix = orthographicMatrix(left: -1.0, right: 1.0, bottom: -1.0, top: 1.0)
+
+let uniformBuffer = device.makeBuffer(length: MemoryLayout<matrix_float4x4>.size, options: [] )!
+memcpy(uniformBuffer.contents(), &orthoMatrix, MemoryLayout<matrix_float4x4>.size)
+
 // Load shaders.
 let library = device.makeDefaultLibrary()!
 let vertexFunction = library.makeFunction(name: "vertex_main")!
@@ -63,7 +80,7 @@ guard let vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexData
 var renderer: Renderer?
 
 // Assign the delegate to the metalView.
-renderer = Renderer(device: device, commandQueue: commandQueue, pipelineState: pipelineState, vertexBuffer: vertexBuffer)
+renderer = Renderer(device: device, commandQueue: commandQueue, pipelineState: pipelineState, vertexBuffer: vertexBuffer, uniformBuffer:uniformBuffer)
 metalView.delegate = renderer
 
 // Renderer class to handle drawing.
@@ -72,12 +89,14 @@ class Renderer: NSObject, MTKViewDelegate {
     let commandQueue: MTLCommandQueue
     let pipelineState: MTLRenderPipelineState
     let vertexBuffer: MTLBuffer
+    let uniformBuffer: MTLBuffer
     
-    init(device: MTLDevice, commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, vertexBuffer: MTLBuffer) {
+    init(device: MTLDevice, commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, vertexBuffer: MTLBuffer, uniformBuffer: MTLBuffer) {
         self.device = device
         self.commandQueue = commandQueue
         self.pipelineState = pipelineState
         self.vertexBuffer = vertexBuffer
+        self.uniformBuffer = uniformBuffer
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
@@ -91,6 +110,7 @@ class Renderer: NSObject, MTKViewDelegate {
         
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
         
         renderEncoder.endEncoding()
