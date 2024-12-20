@@ -33,7 +33,11 @@ vertexDescriptor.attributes[1].format = .float4
 vertexDescriptor.attributes[1].offset = MemoryLayout<Float>.size * 4
 vertexDescriptor.attributes[1].bufferIndex = 0
 
-vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 8
+vertexDescriptor.attributes[2].format = .float3
+vertexDescriptor.attributes[2].offset = MemoryLayout<Float>.size * 8
+vertexDescriptor.attributes[2].bufferIndex = 0
+
+vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 11
 vertexDescriptor.layouts[0].stepFunction = .perVertex
 
 pipelineDescriptor.vertexDescriptor = vertexDescriptor
@@ -41,19 +45,29 @@ pipelineDescriptor.vertexDescriptor = vertexDescriptor
 // Create pipeline state.
 let pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineDescriptor)
 
-// Create vertex data (position and color for each vertex).
+// Create vertex data (position, color and normal for each vertex).
+
 let vertexData: [Float] = [
-    // Position         // Color (RGBA)
-    0.0,  1.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0, // Top vertex
-   -1.0, -1.0, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0, // Bottom-left vertex
-    1.0, -1.0, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0  // Bottom-right vertex
+    // Position         // Color (RGBA)      // Normal
+     0.0,  1.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  0.0,  0.5,  1.0, // Top vertex (angled slightly)
+    -1.0, -1.0, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0,  -0.5, -0.5, 1.0, // Bottom-left vertex
+     1.0, -1.0, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0,   0.5, -0.5, 1.0  // Bottom-right vertex
 ]
-let vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexData.count * MemoryLayout<Float>.size, options: [])
+
+
+// Define the light direction.
+let lightDirection: [Float] = [-0.5, -0.5, -1.0, 0.0] // Light coming at an angle
+
+let lightDirectionBuffer = device.makeBuffer(bytes: lightDirection, length: MemoryLayout<Float>.size * 4, options: [])!
+
 
 // Create a drawable surface.
 let metalView = MTKView()
 metalView.device = device
 metalView.colorPixelFormat = .bgra8Unorm
+metalView.clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0) // Black background
+
+
 
 guard let vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexData.count * MemoryLayout<Float>.size, options: []) else {
     fatalError("Failed to create vertex buffer.")
@@ -91,6 +105,10 @@ class Renderer: NSObject, MTKViewDelegate {
         
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        
+        // Bind the light direction buffer to index 0.
+        renderEncoder.setFragmentBuffer(lightDirectionBuffer, offset: 0, index: 0)
+        
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
         
         renderEncoder.endEncoding()

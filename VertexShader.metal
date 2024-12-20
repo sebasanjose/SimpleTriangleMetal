@@ -5,25 +5,31 @@
 //  Created by Sebastian Juarez on 12/17/24.
 //
 
+/**
+ The vertex shader passes along the normal vector, and the fragment shader does the dot product with the light direction.
+ */
+
 #include <metal_stdlib>
 using namespace metal;
 
-// Define the structure for the input vertex attributes.
-struct Vertex {
-    float4 position [[attribute(0)]]; // Position of the vertex.
-    float4 color [[attribute(1)]];    // Color of the vertex.
+struct VertexIn {
+    float4 position [[attribute(0)]];
+    float4 color [[attribute(1)]];
+    float3 normal [[attribute(2)]];
 };
 
-// Define the structure for the output to the fragment shader.
 struct VertexOut {
-    float4 position [[position]];    // Position in clip space.
-    float4 color;                    // Color to pass to the fragment shader.
+    float4 position [[position]];
+    float4 color;
+    float3 normal;
 };
 
-vertex VertexOut vertex_main(Vertex in [[stage_in]]) {
+vertex VertexOut vertex_main(VertexIn in [[stage_in]]) {
     VertexOut out;
-    out.position = in.position; // Pass position to the clip space.
-    out.color = in.color;       // Pass color to the fragment shader.
+    out.position = in.position;
+    out.color = in.color;
+    out.normal = in.normal; // Pass the normal to the fragment shader.
     return out;
 }
+
 
