@@ -56,7 +56,7 @@ let vertexData: [Float] = [
 
 
 // Define the light direction.
-let lightDirection: [Float] = [-0.5, -0.5, -1.0, 0.0] // Light coming at an angle
+let lightDirection: [Float] = [0.7, 0.7, -1.0, 0.0] // Light coming at an angle
 
 let lightDirectionBuffer = device.makeBuffer(bytes: lightDirection, length: MemoryLayout<Float>.size * 4, options: [])!
 

@@ -51,15 +51,17 @@ fragment float4 fragment_main(
     float3 normalizedNormal = normalize(in.normal);
 
     // Compute Lambertian reflection
-    float lambertian = dot(normalizedNormal, normalizedLight);
+    float lambertian = max(dot(normalizedNormal, normalizedLight), 0.0);
     
-    float3 litColor = in.color.rgb * lambertian + float3(0.2); // Ambient intensity of 0.2
+    float3 litColor = in.color.rgb * lambertian + float3(0.1); // Ambient intensity of 0.2
     return float4(litColor, in.color.a);
 
 
     // Output Lambertian coefficient as grayscale
 //    return float4(lambertian, lambertian, lambertian, 1.0);
 }
+
+
 
 
 //fragment float4 fragment_main(
