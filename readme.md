@@ -1,4 +1,3 @@
-
 # SimpleTriangleMetal
 
 SimpleTriangleMetal is a basic example demonstrating how to render a simple triangle using Apple's Metal framework. This project serves as an introduction to Metal's graphics rendering capabilities for developers new to the framework.
@@ -9,11 +8,14 @@ SimpleTriangleMetal is a basic example demonstrating how to render a simple tria
 - **Shader Implementation**: Includes vertex and fragment shaders written in Metal Shading Language.
 - **Xcode Integration**: Configured with an Xcode project for easy setup and building.
 
-
 ## Project Structure
 
 **SimpleTriangle.xcodeproj:** Xcode project file.
+
 **SimpleTriangle:** Directory containing the main application source files.
+
 **Shaders:**
+
 **VertexShader.metal:** Defines the vertex shader.
+
 **FragmentShader.metal:** Defines the fragment shader.
