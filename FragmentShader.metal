@@ -16,22 +16,25 @@ struct VertexOut {
     float4 position [[position]];
     float4 color;
     float3 normal;
+    float2 texCoords;
 };
 
 
 fragment float4 fragment_main(
     VertexOut in [[stage_in]],
-    constant float3 &lightDirection [[buffer(0)]]
+    constant float3 &lightDirection [[buffer(0)]],
+    texture2d<float> texture [[texture(0)]]
 ) {
-    float3 normalizedLight = normalize(float3(0.0, 0.0, 1.0)); // Light pointing towards the screen
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+    float4 textureColor = texture.sample(textureSampler, in.texCoords);
+    
+    float3 normalizedLight = normalize(float3(0.0, 0.0, 1.0));
     float3 normalizedNormal = normalize(in.normal);
-
-    // Compute Lambertian reflection
     float lambertian = max(dot(normalizedNormal, normalizedLight), 0.0);
     
-    float3 litColor = in.color.rgb * lambertian + float3(0.1); // Ambient intensity of 0.2
-    return float4(litColor, in.color.a);
-
+    // Combine texture color with lighting
+    float3 litColor = textureColor.rgb * lambertian + float3(0.1);
+    return float4(litColor, textureColor.a);
 }
 
 

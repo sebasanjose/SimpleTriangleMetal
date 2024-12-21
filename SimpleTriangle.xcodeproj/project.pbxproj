@@ -14,12 +14,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		A4E5DF662D125F57004AF944 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -28,9 +28,28 @@
 		A4E5DF722D129FC2004AF944 /* VertexShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VertexShader.metal; sourceTree = "<group>"; };
 		A4E5DF742D129FF1004AF944 /* FragmentShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = FragmentShader.metal; sourceTree = "<group>"; };
 		A4E5DF802D153BD8004AF944 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		A4E5DF882D16A868004AF944 /* texture.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = texture.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		A47F8CA22D16AD29005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = A4E5DF662D125F57004AF944 /* CopyFiles */;
+			membershipExceptions = (
+				texture.png,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A41E2CB02D16ACB20034A0EA /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A47F8CA22D16AD29005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A4E5DF6A2D125F57004AF944 /* SimpleTriangle */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SimpleTriangle;
@@ -52,6 +71,8 @@
 		A4E5DF5F2D125F57004AF944 = {
 			isa = PBXGroup;
 			children = (
+				A41E2CB02D16ACB20034A0EA /* Resources */,
+				A4E5DF882D16A868004AF944 /* texture.py */,
 				A4E5DF802D153BD8004AF944 /* readme.md */,
 				A4E5DF722D129FC2004AF944 /* VertexShader.metal */,
 				A4E5DF742D129FF1004AF944 /* FragmentShader.metal */,
@@ -84,6 +105,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				A41E2CB02D16ACB20034A0EA /* Resources */,
 				A4E5DF6A2D125F57004AF944 /* SimpleTriangle */,
 			);
 			name = SimpleTriangle;
@@ -262,6 +284,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2SL2J74D3L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -273,6 +296,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 2SL2J74D3L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

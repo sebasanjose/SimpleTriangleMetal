@@ -37,7 +37,11 @@ vertexDescriptor.attributes[2].format = .float3
 vertexDescriptor.attributes[2].offset = MemoryLayout<Float>.size * 8
 vertexDescriptor.attributes[2].bufferIndex = 0
 
-vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 11
+vertexDescriptor.attributes[3].format = .float2
+vertexDescriptor.attributes[3].offset = MemoryLayout<Float>.size * 11
+vertexDescriptor.attributes[3].bufferIndex = 0
+
+vertexDescriptor.layouts[0].stride = MemoryLayout<Float>.size * 13
 vertexDescriptor.layouts[0].stepFunction = .perVertex
 
 pipelineDescriptor.vertexDescriptor = vertexDescriptor
@@ -48,18 +52,21 @@ let pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineDesc
 // Create vertex data (position, color and normal for each vertex).
 
 let vertexData: [Float] = [
-    // Position         // Color (RGBA)      // Normal
-     0.0,  1.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  0.0,  0.5,  1.0, // Top vertex (angled slightly)
-    -1.0, -1.0, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0,  -0.5, -0.5, 1.0, // Bottom-left vertex
-     1.0, -1.0, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0,   0.5, -0.5, 1.0  // Bottom-right vertex
+    // Position         // Color (RGBA)      // Normal           // TexCoords
+     0.0,  1.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  0.0,  0.5,  1.0,  0.5, 1.0, // Top
+    -1.0, -1.0, 0.0, 1.0,  0.0, 1.0, 0.0, 1.0,  -0.5, -0.5, 1.0,  0.0, 0.0, // Bottom-left
+     1.0, -1.0, 0.0, 1.0,  0.0, 0.0, 1.0, 1.0,   0.5, -0.5, 1.0,  1.0, 0.0  // Bottom-right
 ]
-
 
 // Define the light direction.
 let lightDirection: [Float] = [0.7, 0.7, -1.0, 0.0] // Light coming at an angle
 
 let lightDirectionBuffer = device.makeBuffer(bytes: lightDirection, length: MemoryLayout<Float>.size * 4, options: [])!
 
+// Add texture creation code after device initialization
+let textureLoader = MTKTextureLoader(device: device)
+let textureURL = Bundle.main.url(forResource: "texture", withExtension: "png")!
+let texture = try! textureLoader.newTexture(URL: textureURL, options: nil)
 
 // Create a drawable surface.
 let metalView = MTKView()
@@ -77,7 +84,7 @@ guard let vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexData
 var renderer: Renderer?
 
 // Assign the delegate to the metalView.
-renderer = Renderer(device: device, commandQueue: commandQueue, pipelineState: pipelineState, vertexBuffer: vertexBuffer)
+renderer = Renderer(device: device, commandQueue: commandQueue, pipelineState: pipelineState, vertexBuffer: vertexBuffer, texture: texture)
 metalView.delegate = renderer
 
 // Renderer class to handle drawing.
@@ -86,12 +93,14 @@ class Renderer: NSObject, MTKViewDelegate {
     let commandQueue: MTLCommandQueue
     let pipelineState: MTLRenderPipelineState
     let vertexBuffer: MTLBuffer
+    let texture: MTLTexture
     
-    init(device: MTLDevice, commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, vertexBuffer: MTLBuffer) {
+    init(device: MTLDevice, commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, vertexBuffer: MTLBuffer, texture: MTLTexture) {
         self.device = device
         self.commandQueue = commandQueue
         self.pipelineState = pipelineState
         self.vertexBuffer = vertexBuffer
+        self.texture = texture
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
@@ -108,6 +117,8 @@ class Renderer: NSObject, MTKViewDelegate {
         
         // Bind the light direction buffer to index 0.
         renderEncoder.setFragmentBuffer(lightDirectionBuffer, offset: 0, index: 0)
+        
+        renderEncoder.setFragmentTexture(texture, index: 0)
         
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
         
