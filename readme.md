@@ -19,3 +19,7 @@ SimpleTriangleMetal is a basic example demonstrating how to render a simple tria
 **VertexShader.metal:** Defines the vertex shader.
 
 **FragmentShader.metal:** Defines the fragment shader.
+
+## Special Branches
+
+**Branch texture** shows the usage of fragment shader to load a sample texture 
