@@ -32,7 +32,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		A47F8CA22D16AD29005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */ = {
+		A47F8CAC2D18D941005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = A4E5DF662D125F57004AF944 /* CopyFiles */;
 			membershipExceptions = (
@@ -45,7 +45,7 @@
 		A41E2CB02D16ACB20034A0EA /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A47F8CA22D16AD29005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */,
+				A47F8CAC2D18D941005F92D9 /* Exceptions for "Resources" folder in "Copy Files" phase from "SimpleTriangle" target */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
